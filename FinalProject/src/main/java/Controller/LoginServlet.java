@@ -30,6 +30,7 @@ public class LoginServlet extends HttpServlet {
 				}
 			}
 		}
+		
 
 		getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
 	}
@@ -74,12 +75,19 @@ public class LoginServlet extends HttpServlet {
 				u.setMaxAge(0);
 				p.setMaxAge(0);
 			}
-
-			resp.addCookie(u);
-			resp.addCookie(p);
-
-			resp.sendRedirect("homePage");
-			return;
+			if(acc.getIsAdmin() == 1 || acc.getIsSell() ==1)
+			{
+				resp.sendRedirect("adminDashboard");
+				return;
+			}
+			
+			else {
+				resp.addCookie(u);
+				resp.addCookie(p);
+	
+				resp.sendRedirect("homePage");
+				return;
+			}
 		}
 		req.setAttribute("error", "Wrong user name of password !");
 		getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);

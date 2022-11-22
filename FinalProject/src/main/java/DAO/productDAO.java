@@ -1,6 +1,5 @@
 package DAO;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,8 +76,8 @@ public class productDAO {
 			rs.next();
 			product.setProductID(rs.getInt("productID"));
 			product.setProductName(rs.getString("productName"));
-			product.setCateID(rs.getInt("cateID"));
 			product.setPrice(rs.getInt("price"));
+			product.setCateID(rs.getInt("cateID"));		
 			product.setDescription(rs.getString("description"));
 			product.setImage(rs.getString("image"));
 		} catch (Exception e) {
@@ -383,6 +382,90 @@ public class productDAO {
 		}
 		return null;
 	}
+	public void deleteCartByProductID(int productID) {
+        String query = "delete from cart where productID=?";
+        try {
+            con = new DBConnect().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, productID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+	public void deleteReviewByProductID(int productID) {
+        String query = "delete from review where productID = ?";        try {
+            con = new DBConnect().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, productID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+	public void deleteProduct(int productID) {
+        String query = "delete from product\n"
+                + "where productID = ?";
+        try {
+            con = new DBConnect().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, productID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    public void deleteInvoiceDetailByProductID(int productID) {
+        String query = "delete from invoicedetail where productID = ?";
+        try {
+            con = new DBConnect().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, productID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    public void deleteSoLuongDaBanByProductID(int productID) {
+        String query = "delete from soluongdaban where productID = ?";
+        try {
+            con = new DBConnect().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, productID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    public void editProduct(int productID, String productName, int price, int cateID, String description,
+    		String image ) {
+        String query = "update product set productName=?, price=?, cateID=?, description=?, image=? where productID = ?";
+        try {
+            con = new DBConnect().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, productName);
+            ps.setInt(2, price);
+            ps.setInt(3, cateID);
+            ps.setString(4, description);
+            ps.setString(5, image);
+            ps.setInt(6, productID);
+            ps.executeUpdate();
+           
+        } catch (Exception e) {
+        	 
+        }
+    }
+    public void addProduct(String productName, int price, int cateID, String description, String image ) {
+        String query = "insert into product (productName, price, cateID, description, image) values (?,?,?,?,?)";
+        try {
+            con = new DBConnect().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, productName);
+            ps.setInt(2, price);
+            ps.setInt(3, cateID);
+            ps.setString(4, description);
+            ps.setString(5, image);
+            ps.executeUpdate();
+           
+        } catch (Exception e) {
+        	 
+        }
+    }
 	// Test
 //	public static void main(String[] args) {
 //		try {
